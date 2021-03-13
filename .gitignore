@@ -18,6 +18,10 @@ frontend/build
 .env.test.local
 .env.production.local
 
+Pipfile
+Pipfile.lock
+.vscode
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
