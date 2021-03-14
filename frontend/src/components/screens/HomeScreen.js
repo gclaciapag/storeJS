@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Container, Row, Col } from 'react-bootstrap'
 import Product from '../Product'
-import axios from 'axios'
+import { listProducts } from '../../actions/productActions'
 
 const HomeScreen = () => {
 
-    const [products, setProducts] = useState([])
+    const dispatch = useDispatch()
+    const productList = useSelector(state => state.productList)
+    const {products, error, loading} = productList
+
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            const { data } = await axios.get('api/products/')
-            setProducts(data) 
-        }
-        fetchProducts()
-    }, [])
+        dispatch(listProducts())
+    }, [dispatch])
 
     const featuredProducts = products.filter(product => product.isFeatured === true)
-
 
 
     return (
@@ -30,15 +29,20 @@ const HomeScreen = () => {
         <Container className="text-center mt-5">
             <h1>Featured Products</h1>
         </Container>
-        <div>
-            <Row>
-                {featuredProducts.map(prod => (
-                   <Col key={prod._id} sm={12} md={6} lg={4} xl={3}>
-                    <Product product={prod} />
-                   </Col> 
-                ))}
-            </Row>
-        </div>
+
+        {loading ? <h3>Loading...</h3>
+            : error ? <h3>error.message</h3>
+                :
+                <div>
+                    <Row>
+                        {featuredProducts.map(prod => (
+                        <Col key={prod._id} sm={12} md={6} lg={4} xl={3}>
+                            <Product product={prod} />
+                        </Col> 
+                        ))}
+                    </Row>
+                </div>
+        }
         </>
     )
 }
