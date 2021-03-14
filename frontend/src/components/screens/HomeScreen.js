@@ -15,7 +15,7 @@ const HomeScreen = () => {
         fetchProducts()
     }, [])
 
-    const featuredProducts = products.filter(product => product.isFeatured === "Yes")
+    const featuredProducts = products.filter(product => product.isFeatured === true)
 
 
 
