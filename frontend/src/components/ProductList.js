@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Row, Col } from 'react-bootstrap'
-import Product from '../components/Product'
 import { listProducts } from '../actions/productActions'
+
+import Loader from './Loader';
+import Message from './Message'
+import Product from '../components/Product'
 
 const ProductList = () => {
 
@@ -16,10 +19,11 @@ const ProductList = () => {
 
     return (
         <div>
-            <Container className="text-center mt-5">
+            <Container className="text-center mt-3">
                 <h1>Our Products</h1>
-                {loading ? <h2>Loading...</h2>
-                    : error ? <h3>{error}</h3>
+                <div className="mt-3">
+                {loading ? <Loader />
+                    : error ? <Message variant='danger'>{error}</Message>
                         : 
                         <Row>
                             {products.map(prod => (
@@ -29,6 +33,7 @@ const ProductList = () => {
                             ))}
                         </Row>
                 }
+                </div>
             </Container>
         </div>
     )

@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Container, Row, Col } from 'react-bootstrap'
-import Product from '../Product'
 import { listProducts } from '../../actions/productActions'
+
+import Loader from '../Loader'
+import Message from '../Message'
+import Product from '../Product'
 
 const HomeScreen = () => {
 
@@ -15,7 +18,8 @@ const HomeScreen = () => {
         dispatch(listProducts())
     }, [dispatch])
 
-    const featuredProducts = products.filter(product => product.isFeatured === true)
+
+    const featuredProducts = products ? products.filter(product => product.isFeatured === true) : []
 
 
     return (
@@ -26,12 +30,12 @@ const HomeScreen = () => {
                 <h4>Best products for cheaper prices.</h4>
             </div>
         </main>
-        <Container className="text-center mt-5">
+        <Container className="text-center mt-3 mb-3">
             <h1>Featured Products</h1>
         </Container>
 
-        {loading ? <h3>Loading...</h3>
-            : error ? <h3>error.message</h3>
+        {loading ? <Loader />
+            : error ? <Message variant='danger'>{error}</Message>
                 :
                 <div>
                     <Row>
